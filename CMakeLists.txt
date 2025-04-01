@@ -32,7 +32,7 @@ target_compile_options(erikbus PRIVATE
     -Wno-language-extension-token
     -Wno-writable-strings)
 
-target_link_libraries(erikbus PRIVATE c)
+target_link_libraries(erikbus PRIVATE c_core)
 
 target_include_directories(erikbus PUBLIC 
     include)

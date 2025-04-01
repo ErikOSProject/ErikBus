@@ -8,11 +8,8 @@
  */
 
 #include <erikbus.h>
-
-size_t strlen(const char *str);
-void *malloc(size_t size);
-void free(void *ptr);
-int64_t _syscall(enum syscall_type type, void *data);
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief Finds a service by name.
