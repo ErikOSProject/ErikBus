@@ -25,7 +25,7 @@ int64_t _syscall_service(char *name)
 {
 	struct syscall_method_data m = { 0, 1, 0 };
 	struct syscall_param p = { .type = SYSCALL_PARAM_ARRAY,
-				   .size = strlen(name),
+				   .size = strlen(name) + 1,
 				   .array = (void *)name };
 	_syscall(SYSCALL_PUSH, &p);
 	return _syscall(SYSCALL_METHOD, &m);
@@ -46,7 +46,7 @@ int64_t _syscall_interface(int64_t service, char *name)
 {
 	struct syscall_method_data m = { service, 0, 0 };
 	struct syscall_param p = { .type = SYSCALL_PARAM_ARRAY,
-				   .size = strlen(name),
+				   .size = strlen(name) + 1,
 				   .array = (void *)name };
 	_syscall(SYSCALL_PUSH, &p);
 	return _syscall(SYSCALL_METHOD, &m);
@@ -70,7 +70,7 @@ int64_t _syscall_method(int64_t service, int64_t interface, char *name)
 	struct syscall_param p1 = { .type = SYSCALL_PARAM_PRIMITIVE,
 				    .value = interface };
 	struct syscall_param p2 = { .type = SYSCALL_PARAM_ARRAY,
-				    .size = strlen(name),
+				    .size = strlen(name) + 1,
 				    .array = (void *)name };
 	_syscall(SYSCALL_PUSH, &p1);
 	_syscall(SYSCALL_PUSH, &p2);
@@ -90,7 +90,7 @@ int64_t _syscall_method(int64_t service, int64_t interface, char *name)
 int64_t _syscall_push_string(char *str)
 {
 	struct syscall_param p = { .type = SYSCALL_PARAM_ARRAY,
-				   .size = strlen(str),
+				   .size = strlen(str) + 1,
 				   .array = (void *)str };
 	return _syscall(SYSCALL_PUSH, &p);
 }
@@ -138,10 +138,6 @@ int64_t _syscall_pop_string(char **str)
 		return -1;
 	p.array = *str;
 	ret = _syscall(SYSCALL_POP, &p);
-	if (ret < 0) {
-		free(*str);
-		*str = NULL;
-	}
 	return ret;
 }
 
