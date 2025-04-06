@@ -1,3 +1,4 @@
+.section .text
 .global _syscall
 _syscall:
     // Save registers that will be used
@@ -11,6 +12,14 @@ _syscall:
 
     syscall
 
+    // Check for error
+    cmpq $0, %rax
+    jnl .no_error
+    // If error, set errno
+    movq %rax, errno
+    movq $-1, %rax
+
+.no_error:
     // Restore registers
     popq %r9
     popq %r8
@@ -21,3 +30,10 @@ _syscall:
     popq %rdi
     // Return to the caller
     ret
+
+.section .data
+errno:
+    .zero 8
+    .global errno
+    .type errno, @object
+    .size errno, 8
