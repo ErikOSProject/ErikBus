@@ -36,3 +36,5 @@ target_link_libraries(erikbus PRIVATE c_core)
 
 target_include_directories(erikbus PUBLIC 
     include)
+
+install(TARGETS erikbus)
